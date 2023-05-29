@@ -99,9 +99,9 @@ describe('Basic user flow for Website', () => {
       const pItem = await page.$('product-item');
       const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
       const but = await shadowRoot.$('button');
-      const innerText = await page.evaluate(element => element.innerText, but);
+      const txt = await page.evaluate(element => element.innerText, but));
       const innerText2 = await page.evaluate(element => element.innerText, '#cart-count');
-      expect(innerText.jsonValue).toBe('Remove from Cart');
+      expect(txt).toBe('Remove from Cart');
       expect(innerText2.jsonValue).toBe('20');
     }
 
@@ -128,7 +128,6 @@ describe('Basic user flow for Website', () => {
       const pItem = await page.$('product-item');
       const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
       const button = await shadowRoot.$('button');
-      //const innerText = await but.click().then(() => page.evaluate(element => element.innerText, '#cart-count'));
       const innerText = await button.click().then(() => page.evaluate(element => element.innerText, '#cart-count'));
       expect(innerText).toBe('0');
     }
@@ -150,8 +149,8 @@ describe('Basic user flow for Website', () => {
       const button = await shadowRoot.$('button');
       const innerText = await page.evaluate(element => element.innerText, button);
       const innerText2 = await page.evaluate(element => element.innerText, '#cart-count');
-      expect(innerText.jsonValue()).toBe('Add to Cart');
-      expect(innerText2.jsonValue()).toBe('0');
+      expect(innerText.jsonValue).toBe('Add to Cart');
+      expect(innerText2.jsonValue).toBe('0');
     }
 
   }, 10000);
