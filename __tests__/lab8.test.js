@@ -100,9 +100,10 @@ describe('Basic user flow for Website', () => {
       const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
       const but = await shadowRoot.$('button');
       const txt = await page.evaluate(element => element.innerText, but);
-      const innerText2 = await page.evaluate(element => element.innerText, '#cart-count');
+      const cartNum = await page.$('#cart-count');
+      const txt2 = await page.evaluate(element => element.innerText, cartNum);
       expect(txt).toBe('Remove from Cart');
-      expect(innerText2.jsonValue).toBe('20');
+      expect(txt2).toBe('20');
     }
 
   }, 10000);
@@ -124,13 +125,16 @@ describe('Basic user flow for Website', () => {
     // Go through and click "Remove from Cart" on every single <product-item>, just like above.
     // Once you have, check to make sure that #cart-count is now 0
     const prodItems = await page.$$('product-item');
-    for (let i = 0; i < prodItems.length; i++) {
-      const pItem = await page.$('product-item');
+    for (let i = 1; i < prodItems.length; i++) {
+      const pItem = await prodItems[i];
       const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
-      const button = await shadowRoot.$('button');
-      const innerText = await button.click().then(() => page.evaluate(element => element.innerText, '#cart-count'));
-      expect(innerText).toBe('0');
+      const but = await shadowRoot.$('button');
+      await but.click();
     }
+    const cartNum = await page.$('#cart-count');
+    const txt = await page.evaluate(element => element.innerText, cartNum);
+    expect(txt).toBe('0');
+
   }, 10000);
 
   // Checking to make sure that it remembers us removing everything from the cart
