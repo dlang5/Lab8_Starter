@@ -150,11 +150,12 @@ describe('Basic user flow for Website', () => {
     for (let i = 0; i < prodItems.length; i++) {
       const pItem = await page.$('product-item');
       const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
-      const button = await shadowRoot.$('button');
-      const innerText = await page.evaluate(element => element.innerText, button);
-      const innerText2 = await page.evaluate(element => element.innerText, '#cart-count');
-      expect(innerText.jsonValue).toBe('Add to Cart');
-      expect(innerText2.jsonValue).toBe('0');
+      const but = await shadowRoot.$('button');
+      const txt = await page.evaluate(element => element.innerText, but);
+      const cartNum = await page.$('#cart-count');
+      const txt2 = await page.evaluate(element => element.innerText, cartNum);
+      expect(txt).toBe('Add to Cart');
+      expect(txt2).toBe('0');
     }
 
   }, 10000);
