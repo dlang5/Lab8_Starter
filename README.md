@@ -9,3 +9,7 @@ Automating our Continuous Integration and Continuous Delivery (CICD) pipeline is
 2. Would you use an end to end test to check if a function is returning the correct output? (yes/no)
 
 No, the use of end to end tests are to emulate the user's experience with the product/program. The goal of the unit test is the accomplish exactly what the question is asking so it's better to use that. End to end tests do not care if variables are working correctly but if functionality and user accomplishing their goals are more important.
+
+3.  I might consider using a unit test to have a usability type test, but this is clearly more suited for a end to end test, as it directly impacts a feature of usability for the end user
+
+4. This is the appropriate use for the unit test, as it checks an actual variable value we know to be false, the bread and butter behind the unit test.
