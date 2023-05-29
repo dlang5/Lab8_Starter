@@ -126,12 +126,15 @@ describe('Basic user flow for Website', () => {
     // Once you have, check to make sure that #cart-count is now 0
     const prodItems = await page.$$('product-item');
     for (let i = 0; i < prodItems.length; i++) {
-      const pItem = await page.$('product-item');
+      const pItem = await prodItems[i];
       const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
-      const button = await shadowRoot.$('button');
-      const innerText = await button.click().then(() => page.evaluate(element => element.innerText, '#cart-count'));
-      expect(innerText).toBe('0');
+      const but = await shadowRoot.$('button');
+      await but.click();
     }
+    const cartNum = await page.$('#cart-count');
+    const txt = await page.evaluate(element => element.innerText, cartNum);
+    expect(txt).toBe('0');
+
   }, 10000);
 
   // Checking to make sure that it remembers us removing everything from the cart
