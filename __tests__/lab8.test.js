@@ -99,7 +99,7 @@ describe('Basic user flow for Website', () => {
       const pItem = await page.$('product-item');
       const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
       const but = await shadowRoot.$('button');
-      const txt = await page.evaluate(element => element.innerText, but));
+      const txt = await page.evaluate(element => element.innerText, but);
       const innerText2 = await page.evaluate(element => element.innerText, '#cart-count');
       expect(txt).toBe('Remove from Cart');
       expect(innerText2.jsonValue).toBe('20');
