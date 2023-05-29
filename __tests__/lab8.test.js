@@ -95,7 +95,10 @@ describe('Basic user flow for Website', () => {
     await page.reload();
     const prodItems = await page.$$('product-item');
     for (let i = 0; i < prodItems.length; i++) {
-      const innerText = await page.evaluate(element => element.innerText, button);
+      const pItem = await page.$('product-item');
+      const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
+      const but = await shadowRoot.$('button');
+      const innerText = await page.evaluate(element => element.innerText, but);
       const innerText2 = await page.evaluate(element => element.innerText, '#cart-count');
       expect(innerText.jsonValue()).toBe('Remove from Cart');
       expect(innerText2.jsonValue()).toBe('20');
@@ -121,10 +124,12 @@ describe('Basic user flow for Website', () => {
     // Once you have, check to make sure that #cart-count is now 0
     const prodItems = await page.$$('product-item');
     for (let i = 0; i < prodItems.length; i++) {
-      const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, productItem);
+      const pItem = await page.$('product-item');
+      const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
       const but = await shadowRoot.$('button');
+      //const innerText = await but.click().then(() => page.evaluate(element => element.innerText, '#cart-count'));
       const innerText = await button.click().then(() => page.evaluate(element => element.innerText, '#cart-count'));
-      expect(innerText.jsonValue()).toBe('0');
+      expect(innerText).toBe('0');
     }
   }, 10000);
 
@@ -139,6 +144,9 @@ describe('Basic user flow for Website', () => {
     await page.reload();
     const prodItems = await page.$$('product-item');
     for (let i = 0; i < prodItems.length; i++) {
+      const pItem = await page.$('product-item');
+      const shadowRoot = await page.evaluateHandle(element => element.shadowRoot, pItem);
+      const but = await shadowRoot.$('button');
       const innerText = await page.evaluate(element => element.innerText, button);
       const innerText2 = await page.evaluate(element => element.innerText, '#cart-count');
       expect(innerText.jsonValue()).toBe('Add to Cart');
